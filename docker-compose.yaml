@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  postgres:
+    container_name: db
+    image: postgres:13.1-alpine
+    restart: on-failure
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - payment-postgres-data:/var/lib/postgresql/data
+    command: postgres -c listen_addresses='*'
+
+volumes:
+  payment-postgres-data:
+    driver: local
