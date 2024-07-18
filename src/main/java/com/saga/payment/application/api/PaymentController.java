@@ -1,6 +1,7 @@
 package com.saga.payment.application.api;
 
 import com.saga.payment.application.api.response.PaymentResponse;
+import com.saga.payment.application.messaging.PaymentProducer;
 import com.saga.payment.application.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,12 @@ import java.util.List;
 public class PaymentController {
 
     private final PaymentService paymentService;
+    private final PaymentProducer producer;
 
     @GetMapping
     ResponseEntity<List<PaymentResponse>> get() {
         List<PaymentResponse> response = paymentService.getAll();
+        response.forEach(msg -> producer.send(msg));
         return ResponseEntity.ok().body(response);
     }
 
