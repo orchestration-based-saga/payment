@@ -4,5 +4,5 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class StreamBindingsConstants {
-    public static final String PAYMENT = "payment-out";
+    public static final String PAYMENT = "payment";
 }

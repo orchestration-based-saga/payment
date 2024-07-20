@@ -3,7 +3,6 @@ package com.saga.payment.infra.model;
 import com.saga.payment.infra.model.enums.PaymentTransactionStatus;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Type;
 
 import java.math.BigDecimal;
 import java.util.UUID;

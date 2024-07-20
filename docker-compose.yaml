@@ -6,11 +6,11 @@ services:
     image: postgres:13.1-alpine
     restart: on-failure
     environment:
-      POSTGRES_DB: postgres
+      POSTGRES_DB: paymentdb
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - "5432:5432"
+      - "5431:5432"
     volumes:
       - payment-postgres-data:/var/lib/postgresql/data
     command: postgres -c listen_addresses='*'
@@ -22,7 +22,7 @@ services:
     ports:
       - "2181:2181"
     volumes:
-      - payment-zookeeper-data:/var/lib/zookeper/data
+      - payment-zookeeper-data:/var/lib/zookeeper/data
   kafka:
     image: confluentinc/cp-kafka:latest
     depends_on:

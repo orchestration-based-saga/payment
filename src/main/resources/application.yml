@@ -2,7 +2,7 @@ spring:
   application:
     name: payment
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://localhost:5431/paymentdb
     password: postgres
     username: postgres
   cloud:
@@ -31,7 +31,7 @@ spring:
             linger.ms: 1
       function:
         definition: payment
-        bindings:
-          payment-out-0:
-            destination: payment
-            content-type: application/json
+      bindings:
+        payment-out-0:
+          destination: payment
+          content-type: application/json

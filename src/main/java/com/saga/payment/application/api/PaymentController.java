@@ -22,7 +22,7 @@ public class PaymentController {
     @GetMapping
     ResponseEntity<List<PaymentResponse>> get() {
         List<PaymentResponse> response = paymentService.getAll();
-        response.forEach(msg -> producer.send(msg));
+        response.forEach(producer::send);
         return ResponseEntity.ok().body(response);
     }
 
