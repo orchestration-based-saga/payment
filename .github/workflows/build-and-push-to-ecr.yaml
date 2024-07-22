@@ -17,5 +17,6 @@ jobs:
           gradle-version: wrapper
       - name: Build with Gradle Wrapper
         run: ./gradlew clean build
+
 #  push-to-ecr:
 #    needs: build-image
