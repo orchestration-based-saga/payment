@@ -18,6 +18,8 @@ jobs:
       - name: Build with Gradle Wrapper
         run: ./gradlew clean build
   push-to-ecr:
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION }}
     runs-on: ubuntu-latest
     needs: build-image
     steps:
