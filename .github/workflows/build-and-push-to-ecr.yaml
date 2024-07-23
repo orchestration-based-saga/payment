@@ -1,5 +1,7 @@
-name: Build and push to ECR.
-on: [ pull_request ]
+name: Build and push to ECR
+on:
+  push:
+    branches: [master]
 jobs:
   build-image:
     runs-on: ubuntu-latest
