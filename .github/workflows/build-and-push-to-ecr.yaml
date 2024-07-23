@@ -28,13 +28,11 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
-      - name: List files for debugging
-        run: ls -al
       - name: Build, tag, and push image to Amazon ECR
         id: build-and-push
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: payment
+          ECR_REPOSITORY: saga-choreography/payment
           IMAGE_TAG: ${{ github.sha }}
         run: |
           # Build a docker container and
