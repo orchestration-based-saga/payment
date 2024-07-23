@@ -1,6 +1,7 @@
 name: Build and test image
 on:
-  pull_request: [opened, reopened, synchronized]
+  pull_request:
+    types: [opened, reopened, synchronize]
 jobs:
   build-image:
     runs-on: ubuntu-latest
