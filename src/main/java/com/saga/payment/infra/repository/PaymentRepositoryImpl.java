@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -49,5 +50,15 @@ public class PaymentRepositoryImpl implements PaymentRepositoryApi {
             log.info("Sending bank transaction request for payment {}", payment.getId());
         }
         return mapper.toDomain(paymentEntityRepository.saveAll(paymentEntities));
+    }
+
+    @Override
+    public Payment save(Payment payment) {
+        return mapper.toDomain(paymentEntityRepository.save(mapper.toEntity(payment)));
+    }
+
+    @Override
+    public Optional<Payment> findById(UUID id) {
+        return paymentEntityRepository.findById(id).map(mapper::toDomain);
     }
 }

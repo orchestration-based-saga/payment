@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -42,5 +44,18 @@ public class PaymentDomainService implements PaymentDomainServiceApi {
 
         payments = paymentRepositoryApi.createBankTransaction(payments);
         payments.forEach(paymentProducerApi::send);
+    }
+
+    @Override
+    public boolean cancelPayment(UUID paymentId) {
+        Optional<Payment> maybePayment = paymentRepositoryApi.findById(paymentId);
+        if (maybePayment.isEmpty()) {
+            return false;
+        }
+        Payment payment = maybePayment.get();
+        payment = payment.updateStatus(TransactionStatus.CANCELLED);
+        payment = paymentRepositoryApi.save(payment);
+        paymentProducerApi.send(payment);
+        return true;
     }
 }

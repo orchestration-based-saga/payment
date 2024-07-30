@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -16,5 +17,9 @@ public class PaymentService {
 
     public List<PaymentResponse> getAll() {
         return paymentResponseMapper.toResponse(paymentDomainService.getAll());
+    }
+
+    public boolean cancelPayment(UUID paymentId) {
+        return paymentDomainService.cancelPayment(paymentId);
     }
 }

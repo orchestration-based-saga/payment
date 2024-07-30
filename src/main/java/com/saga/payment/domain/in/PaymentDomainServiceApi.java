@@ -4,6 +4,7 @@ import com.saga.payment.domain.model.Claim;
 import com.saga.payment.domain.model.Payment;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface PaymentDomainServiceApi {
 
@@ -12,4 +13,6 @@ public interface PaymentDomainServiceApi {
     void processClaim(Claim claim);
 
     void initiateBankTransaction();
+
+    boolean cancelPayment(UUID paymentId);
 }
