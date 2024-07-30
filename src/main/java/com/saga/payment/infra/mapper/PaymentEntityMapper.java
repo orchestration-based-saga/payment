@@ -9,6 +9,8 @@ import java.util.List;
 @Mapper
 public interface PaymentEntityMapper {
 
+    Payment toDomain(PaymentEntity payments);
+
     List<Payment> toDomain(List<PaymentEntity> payments);
 
     PaymentEntity toEntity(Payment payment);

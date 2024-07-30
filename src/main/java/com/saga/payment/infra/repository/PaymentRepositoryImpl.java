@@ -27,7 +27,7 @@ public class PaymentRepositoryImpl implements PaymentRepositoryApi {
     }
 
     @Override
-    public void createPayment(String orderId, BigDecimal amount) {
+    public Payment createPayment(String orderId, BigDecimal amount) {
         PaymentEntity payment = PaymentEntity.builder()
                 .status(PaymentTransactionStatus.CREATED)
                 .transactionAmount(amount)
@@ -36,11 +36,11 @@ public class PaymentRepositoryImpl implements PaymentRepositoryApi {
                 .customerId(UUID.randomUUID())
                 .orderId(orderId)
                 .build();
-        paymentEntityRepository.save(payment);
+        return mapper.toDomain(paymentEntityRepository.save(payment));
     }
 
     @Override
-    public void createBankTransaction(List<Payment> payments) {
+    public List<Payment> createBankTransaction(List<Payment> payments) {
         List<PaymentEntity> paymentEntities = mapper.toEntity(payments);
         for (PaymentEntity payment : paymentEntities) {
             payment.setBankTransactionId(UUID.randomUUID().toString());
@@ -48,6 +48,6 @@ public class PaymentRepositoryImpl implements PaymentRepositoryApi {
             payment.setPaidAmount(payment.getTransactionAmount());
             log.info("Sending bank transaction request for payment {}", payment.getId());
         }
-        paymentEntityRepository.saveAll(paymentEntities);
+        return mapper.toDomain(paymentEntityRepository.saveAll(paymentEntities));
     }
 }

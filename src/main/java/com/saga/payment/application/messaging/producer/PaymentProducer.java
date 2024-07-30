@@ -1,6 +1,7 @@
 package com.saga.payment.application.messaging.producer;
 
-import com.saga.payment.application.api.response.PaymentResponse;
+import com.saga.payment.domain.model.Payment;
+import com.saga.payment.domain.out.PaymentProducerApi;
 import com.saga.payment.infra.common.event.StreamBindingsConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.stream.function.StreamBridge;
@@ -9,11 +10,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class PaymentProducer {
+public class PaymentProducer implements PaymentProducerApi {
 
     private final StreamBridge streamBridge;
 
-    public void send(PaymentResponse payment) {
+    public void send(Payment payment) {
         streamBridge.send(StreamBindingsConstants.PAYMENT,
                 MessageBuilder.withPayload(payment).build());
     }

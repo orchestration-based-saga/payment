@@ -5,6 +5,7 @@ import com.saga.payment.domain.model.Claim;
 import com.saga.payment.domain.model.Payment;
 import com.saga.payment.domain.model.enums.ClaimStatus;
 import com.saga.payment.domain.model.enums.TransactionStatus;
+import com.saga.payment.domain.out.PaymentProducerApi;
 import com.saga.payment.domain.out.PaymentRepositoryApi;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PaymentDomainService implements PaymentDomainServiceApi {
     private final PaymentRepositoryApi paymentRepositoryApi;
+    private final PaymentProducerApi paymentProducerApi;
 
     @Override
     public List<Payment> getAll() {
@@ -26,7 +28,8 @@ public class PaymentDomainService implements PaymentDomainServiceApi {
         if (!claim.status().equals(ClaimStatus.REFUNDED)) {
             return;
         }
-        paymentRepositoryApi.createPayment(claim.orderId(), claim.refundAmount());
+        Payment payment = paymentRepositoryApi.createPayment(claim.orderId(), claim.refundAmount());
+        paymentProducerApi.send(payment);
     }
 
     @Override
@@ -37,6 +40,7 @@ public class PaymentDomainService implements PaymentDomainServiceApi {
                         !p.status().equals(TransactionStatus.COMPLETED))
                 .toList();
 
-        paymentRepositoryApi.createBankTransaction(payments);
+        payments = paymentRepositoryApi.createBankTransaction(payments);
+        payments.forEach(paymentProducerApi::send);
     }
 }
