@@ -1,7 +1,7 @@
-package com.saga.payment.application.api;
+package com.saga.payment.application.controller;
 
 import com.saga.payment.application.api.response.PaymentResponse;
-import com.saga.payment.application.messaging.PaymentProducer;
+import com.saga.payment.application.messaging.producer.PaymentProducer;
 import com.saga.payment.application.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

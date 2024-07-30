@@ -1,4 +1,4 @@
-package com.saga.payment.application.messaging;
+package com.saga.payment.application.messaging.producer;
 
 import com.saga.payment.application.api.response.PaymentResponse;
 import com.saga.payment.infra.common.event.StreamBindingsConstants;
