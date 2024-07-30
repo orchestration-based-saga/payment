@@ -10,4 +10,6 @@ public interface PaymentDomainServiceApi {
     List<Payment> getAll();
 
     void processClaim(Claim claim);
+
+    void initiateBankTransaction();
 }

@@ -10,4 +10,6 @@ public interface PaymentRepositoryApi {
     List<Payment> findAll();
 
     void createPayment(String orderId, BigDecimal amount);
+
+    void createBankTransaction(List<Payment> payments);
 }

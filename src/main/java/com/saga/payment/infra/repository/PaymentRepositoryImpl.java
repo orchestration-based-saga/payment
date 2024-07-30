@@ -7,6 +7,7 @@ import com.saga.payment.infra.model.PaymentEntity;
 import com.saga.payment.infra.model.enums.PaymentTransactionStatus;
 import com.saga.payment.infra.repository.jpa.PaymentEntityRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -15,6 +16,7 @@ import java.util.UUID;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class PaymentRepositoryImpl implements PaymentRepositoryApi {
     private final PaymentEntityRepository paymentEntityRepository;
     private final PaymentEntityMapper mapper;
@@ -35,5 +37,17 @@ public class PaymentRepositoryImpl implements PaymentRepositoryApi {
                 .orderId(orderId)
                 .build();
         paymentEntityRepository.save(payment);
+    }
+
+    @Override
+    public void createBankTransaction(List<Payment> payments) {
+        List<PaymentEntity> paymentEntities = mapper.toEntity(payments);
+        for (PaymentEntity payment : paymentEntities) {
+            payment.setBankTransactionId(UUID.randomUUID().toString());
+            payment.setStatus(PaymentTransactionStatus.COMPLETED);
+            payment.setPaidAmount(payment.getTransactionAmount());
+            log.info("Sending bank transaction request for payment {}", payment.getId());
+        }
+        paymentEntityRepository.saveAll(paymentEntities);
     }
 }

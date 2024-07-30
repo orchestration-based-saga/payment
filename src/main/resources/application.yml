@@ -39,3 +39,6 @@ spring:
           destination: claim
           content-type: application/json
           group: payment-group
+cron:
+  bank-api:
+    expression: "0 0/5 * * * *"

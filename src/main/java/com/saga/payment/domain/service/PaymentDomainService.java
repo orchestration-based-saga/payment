@@ -4,6 +4,7 @@ import com.saga.payment.domain.in.PaymentDomainServiceApi;
 import com.saga.payment.domain.model.Claim;
 import com.saga.payment.domain.model.Payment;
 import com.saga.payment.domain.model.enums.ClaimStatus;
+import com.saga.payment.domain.model.enums.TransactionStatus;
 import com.saga.payment.domain.out.PaymentRepositoryApi;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,16 @@ public class PaymentDomainService implements PaymentDomainServiceApi {
             return;
         }
         paymentRepositoryApi.createPayment(claim.orderId(), claim.refundAmount());
-        // wait for 10 mins and if not cancelled initiate a refund
+    }
+
+    @Override
+    public void initiateBankTransaction() {
+        List<Payment> payments = paymentRepositoryApi.findAll()
+                .stream()
+                .filter(p -> !p.status().equals(TransactionStatus.CANCELLED) &&
+                        !p.status().equals(TransactionStatus.COMPLETED))
+                .toList();
+
+        paymentRepositoryApi.createBankTransaction(payments);
     }
 }

@@ -10,4 +10,8 @@ import java.util.List;
 public interface PaymentEntityMapper {
 
     List<Payment> toDomain(List<PaymentEntity> payments);
+
+    PaymentEntity toEntity(Payment payment);
+
+    List<PaymentEntity> toEntity(List<Payment> payments);
 }
