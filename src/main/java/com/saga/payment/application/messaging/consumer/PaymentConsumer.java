@@ -2,6 +2,7 @@ package com.saga.payment.application.messaging.consumer;
 
 import com.saga.payment.application.mapper.PaymentResponseMapper;
 import com.saga.payment.application.messaging.api.ClaimEvent;
+import com.saga.payment.application.messaging.api.OrderEvent;
 import com.saga.payment.domain.in.PaymentDomainServiceApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +13,7 @@ import java.util.function.Consumer;
 
 @Component
 @RequiredArgsConstructor
-public class ClaimConsumer {
+public class PaymentConsumer {
 
     private final PaymentDomainServiceApi paymentDomainServiceApi;
     private final PaymentResponseMapper paymentResponseMapper;
@@ -20,5 +21,10 @@ public class ClaimConsumer {
     @Bean
     public Consumer<Message<ClaimEvent>> claim() {
         return msg -> paymentDomainServiceApi.processClaim(paymentResponseMapper.toDomain(msg.getPayload()));
+    }
+
+    @Bean
+    public Consumer<Message<OrderEvent>> order() {
+        return msg -> paymentDomainServiceApi.processOrder(paymentResponseMapper.toDomain(msg.getPayload()));
     }
 }

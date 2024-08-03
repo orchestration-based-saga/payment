@@ -61,4 +61,9 @@ public class PaymentRepositoryImpl implements PaymentRepositoryApi {
     public Optional<Payment> findById(UUID id) {
         return paymentEntityRepository.findById(id).map(mapper::toDomain);
     }
+
+    @Override
+    public Optional<Payment> findByOrderId(String orderId) {
+        return paymentEntityRepository.findByOrderId(orderId).map(mapper::toDomain);
+    }
 }

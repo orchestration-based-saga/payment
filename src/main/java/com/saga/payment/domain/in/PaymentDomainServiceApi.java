@@ -1,6 +1,8 @@
 package com.saga.payment.domain.in;
 
+import com.saga.payment.application.messaging.api.OrderEvent;
 import com.saga.payment.domain.model.Claim;
+import com.saga.payment.domain.model.Order;
 import com.saga.payment.domain.model.Payment;
 
 import java.util.List;
@@ -15,4 +17,6 @@ public interface PaymentDomainServiceApi {
     void initiateBankTransaction();
 
     boolean cancelPayment(UUID paymentId);
+
+    void processOrder(Order order);
 }

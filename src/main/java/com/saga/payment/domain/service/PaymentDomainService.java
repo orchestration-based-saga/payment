@@ -2,8 +2,10 @@ package com.saga.payment.domain.service;
 
 import com.saga.payment.domain.in.PaymentDomainServiceApi;
 import com.saga.payment.domain.model.Claim;
+import com.saga.payment.domain.model.Order;
 import com.saga.payment.domain.model.Payment;
 import com.saga.payment.domain.model.enums.ClaimStatus;
+import com.saga.payment.domain.model.enums.OrderDomainStatus;
 import com.saga.payment.domain.model.enums.TransactionStatus;
 import com.saga.payment.domain.out.PaymentProducerApi;
 import com.saga.payment.domain.out.PaymentRepositoryApi;
@@ -57,5 +59,24 @@ public class PaymentDomainService implements PaymentDomainServiceApi {
         payment = paymentRepositoryApi.save(payment);
         paymentProducerApi.send(payment);
         return true;
+    }
+
+    @Override
+    public void processOrder(Order order) {
+        Optional<Payment> maybePayment = paymentRepositoryApi.findByOrderId(order.orderId());
+        if (order.status().equals(OrderDomainStatus.PENDING) && maybePayment.isEmpty()) {
+            Payment payment = paymentRepositoryApi.save(new Payment(
+                    UUID.randomUUID(),
+                    order.grandTotal(),
+                    order.grandTotal(),
+                    TransactionStatus.CREATED,
+                    UUID.randomUUID(),
+                    order.orderId(),
+                    null,
+                    order.customerId()));
+            List<Payment> payments = paymentRepositoryApi.createBankTransaction(List.of(payment));
+            payments.forEach(paymentProducerApi::send);
+
+        }
     }
 }
