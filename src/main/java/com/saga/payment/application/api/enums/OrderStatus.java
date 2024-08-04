@@ -1,4 +1,4 @@
-package com.saga.payment.application.messaging.api.enums;
+package com.saga.payment.application.api.enums;
 
 public enum OrderStatus {
     CREATED,

@@ -1,9 +1,9 @@
 package com.saga.payment.application.mapper;
 
 import com.saga.payment.application.api.response.PaymentResponse;
-import com.saga.payment.application.messaging.api.ClaimEvent;
-import com.saga.payment.application.messaging.api.OrderEvent;
-import com.saga.payment.application.messaging.api.enums.ClaimEventStatus;
+import com.saga.payment.application.api.event.ClaimMessage;
+import com.saga.payment.application.api.event.OrderMessage;
+import com.saga.payment.application.api.enums.ClaimEventStatus;
 import com.saga.payment.domain.model.Claim;
 import com.saga.payment.domain.model.Order;
 import com.saga.payment.domain.model.Payment;
@@ -17,9 +17,9 @@ public interface PaymentResponseMapper {
 
     List<PaymentResponse> toResponse(List<Payment> payments);
 
-    Claim toDomain(ClaimEvent event);
+    Claim toDomain(ClaimMessage event);
 
     ClaimStatus toDomain(ClaimEventStatus status);
 
-    Order toDomain(OrderEvent event);
+    Order toDomain(OrderMessage event);
 }

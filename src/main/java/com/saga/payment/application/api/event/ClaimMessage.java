@@ -1,12 +1,12 @@
-package com.saga.payment.application.messaging.api;
+package com.saga.payment.application.api.event;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.saga.payment.application.messaging.api.enums.ClaimEventStatus;
+import com.saga.payment.application.api.enums.ClaimEventStatus;
 
 import java.math.BigDecimal;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record ClaimEvent(
+public record ClaimMessage(
         Integer id,
         Integer itemId,
         String orderId,

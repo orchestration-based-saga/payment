@@ -1,13 +1,13 @@
-package com.saga.payment.application.messaging.api;
+package com.saga.payment.application.api.event;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.saga.payment.application.messaging.api.enums.OrderStatus;
+import com.saga.payment.application.api.enums.OrderStatus;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record OrderEvent(
+public record OrderMessage(
         Integer id,
         OrderStatus status,
         String orderId,
