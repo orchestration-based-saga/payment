@@ -1,5 +1,6 @@
 package com.saga.payment.application.messaging.consumer;
 
+import com.saga.payment.application.api.event.CheckRefundProcessMessage;
 import com.saga.payment.application.api.event.ClaimMessage;
 import com.saga.payment.application.mapper.PaymentResponseMapper;
 import com.saga.payment.application.api.event.OrderMessage;
@@ -26,5 +27,12 @@ public class PaymentConsumer {
     @Bean
     public Consumer<Message<OrderMessage>> order() {
         return msg -> paymentDomainServiceApi.processOrder(paymentResponseMapper.toDomain(msg.getPayload()));
+    }
+
+    @Bean
+    public Consumer<Message<CheckRefundProcessMessage>> checkRefund() {
+        return msg -> {
+            paymentDomainServiceApi.checkRefund(paymentResponseMapper.toDomain(msg.getPayload()));
+        };
     }
 }

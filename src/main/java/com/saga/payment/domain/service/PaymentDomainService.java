@@ -1,6 +1,7 @@
 package com.saga.payment.domain.service;
 
 import com.saga.payment.domain.in.PaymentDomainServiceApi;
+import com.saga.payment.domain.model.CheckRefundProcess;
 import com.saga.payment.domain.model.Claim;
 import com.saga.payment.domain.model.Order;
 import com.saga.payment.domain.model.Payment;
@@ -77,6 +78,19 @@ public class PaymentDomainService implements PaymentDomainServiceApi {
             List<Payment> payments = paymentRepositoryApi.createBankTransaction(List.of(payment));
             payments.forEach(paymentProducerApi::send);
 
+        }
+    }
+
+    @Override
+    public void checkRefund(CheckRefundProcess process) {
+        Optional<Payment> maybePayment = paymentRepositoryApi.findByOrderId(process.orderId());
+        if (maybePayment.isPresent()) {
+            Payment payment = maybePayment.get();
+            boolean isCanceled = payment.status().equals(TransactionStatus.CANCELLED);
+            boolean isCompleted = payment.status().equals(TransactionStatus.COMPLETED);
+            paymentProducerApi.refundStatus(process, isCanceled || isCompleted);
+        } else {
+            paymentProducerApi.refundStatus(process, false);
         }
     }
 }

@@ -2,12 +2,12 @@ spring:
   application:
     name: payment
   datasource:
-    url: jdbc:postgresql://localhost:5431/paymentdb
+    url: jdbc:postgresql://localhost:5434/paymentdb
     password: postgres
     username: postgres
   cloud:
     function:
-      definition: payment;claim;order;
+      definition: payment;claim;order;checkRefund;refundStatus;
     config:
       enable: true
     stream:
@@ -43,6 +43,14 @@ spring:
           destination: order
           content-type: application/json
           group: payment-group
+        checkRefund-in-0:
+          destination: workflow-check-refund-request
+          content-type: application/json
+          group: payment-group
+        refundStatus-out-0:
+          destination: workflow-check-refund-response
+          content-type: application/json
+          group: paymennt-group
 cron:
   bank-api:
     expression: "0 0/5 * * * *"

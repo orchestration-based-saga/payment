@@ -1,5 +1,6 @@
 package com.saga.payment.domain.in;
 
+import com.saga.payment.domain.model.CheckRefundProcess;
 import com.saga.payment.domain.model.Claim;
 import com.saga.payment.domain.model.Order;
 import com.saga.payment.domain.model.Payment;
@@ -18,4 +19,6 @@ public interface PaymentDomainServiceApi {
     boolean cancelPayment(UUID paymentId);
 
     void processOrder(Order order);
+
+    void checkRefund(CheckRefundProcess process);
 }
