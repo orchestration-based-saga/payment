@@ -50,7 +50,6 @@ spring:
         refundStatus-out-0:
           destination: workflow-check-refund-response
           content-type: application/json
-          group: paymennt-group
 cron:
   bank-api:
     expression: "0 0/5 * * * *"
